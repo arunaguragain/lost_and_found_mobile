@@ -1,0 +1,23 @@
+Step 1: At first hive db was created inside constants
+Step 2: Create failure  class
+Step 3: Create the repo in domain layer
+step 4: Create model
+step 5: Create Services
+step 6: create remote data source
+step 7: create the repo in data
+step 8: create the local data source
+step 9: create usecase in core 
+step 9: create usecase in domain layer
+step 10: create state inside presentation layer
+step 11: create viewmodel
+step 12: create provider in  hive of services (hive_services)
+step 14: create provider in local datasource (batch_local_datsource)
+step 15: create provider in repo of data (batch_repository) 
+step 16: create provider in usecases (create_batch_usecase, getAll.....)
+step 17: create provider(notifier provider) in viewmodel
+step 18: load data in ui
+step 19: added dummy batches in hive_services
+step 20: called hiveservices in main
+
+
+ja ja dependency inject gareko cha tya tya have to create the provider
