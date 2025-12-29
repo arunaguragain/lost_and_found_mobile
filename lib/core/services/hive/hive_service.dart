@@ -42,7 +42,7 @@ class HiveService {
 
   //Register Adapters
   void _registerAdapter() {
-    if (Hive.isAdapterRegistered(HiveTableConstant.batchTypeId)) {
+    if (!Hive.isAdapterRegistered(HiveTableConstant.batchTypeId)) {
       Hive.registerAdapter(BatchHiveModelAdapter());
     }
   }
