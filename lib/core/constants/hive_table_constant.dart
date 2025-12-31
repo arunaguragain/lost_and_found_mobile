@@ -5,12 +5,12 @@ class HiveTableConstant {
   //database name
   static const String dbName = 'lost_n_found_db';
 
-  //Table name : Box names in Hice
+  //Table name : Box names in Hive
   static const int batchTypeId = 0;
   static const String batchTable = 'batch_table';
 
-  static const int studentTypeId = 1;
-  static const String studentTable = 'student_table';
+  static const int authTypeId = 1;
+  static const String authTable = 'auth_table';
 
   static const int itemTypeId = 2;
   static const String itemTable = 'item_table';
