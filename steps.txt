@@ -3,7 +3,7 @@ Step 2: Create failure  class
 Step 3: Create the repo in domain layer paila entity banaune 
 step 4: Create model
 step 5: Create Services
-step 6: create local data source
+step 6: create parent data source
 step 7: create the repo in data
 step 8: create the local data source
 step 9: create usecase in core 

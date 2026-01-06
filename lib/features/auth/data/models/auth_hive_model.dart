@@ -4,7 +4,7 @@ import 'package:lost_and_found_mobile/features/auth/domain/entities/auth_entity.
 import 'package:lost_and_found_mobile/features/batch/domain/entities/batch_entity.dart';
 import 'package:uuid/uuid.dart';
 
- part 'auth_hive_model.g.dart';
+part 'auth_hive_model.g.dart';
 
 @HiveType(typeId: HiveTableConstant.authTypeId)
 class AuthHiveModel extends HiveObject {
