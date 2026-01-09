@@ -2,15 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found_mobile/features/auth/presentation/state/auth_state.dart';
 import 'package:lost_and_found_mobile/features/auth/presentation/view_model/auth_viewmodel.dart';
-import 'package:lost_and_found_mobile/features/batch/domain/entities/batch_entity.dart';
 import 'package:lost_and_found_mobile/features/batch/presentation/state/batch_state.dart';
 import 'package:lost_and_found_mobile/features/batch/presentation/view_model/batch_viewmodel.dart';
-import '../../../../app/routes/app_routes.dart';
 import '../../../../app/theme/app_colors.dart';
 import '../../../../app/theme/theme_extensions.dart';
 import '../../../../core/widgets/gradient_button.dart';
 import '../../../../core/utils/snackbar_utils.dart';
-import '../../../dashboard/presentation/pages/dashboard_page.dart';
 
 class SignupPage extends ConsumerStatefulWidget {
   const SignupPage({super.key});
