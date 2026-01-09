@@ -97,4 +97,6 @@ class UserSessionService {
   String? getUserProfileImage() {
     return _prefs.getString(_keyUserProfileImage);
   }
+
+  getCurrentUserId() {}
 }

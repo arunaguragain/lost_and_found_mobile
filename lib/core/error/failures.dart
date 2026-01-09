@@ -17,10 +17,10 @@ class LocalDatabaseFailure extends Failure {
 
 //API Failure with status code
 class ApiFailure extends Failure {
-  final int? statuscode;
+  final int? statusCode;
 
-  const ApiFailure({required String message, this.statuscode}) : super(message);
+  const ApiFailure({required String message, this.statusCode}) : super(message);
 
   @override
-  List<Object?> get props => [message, statuscode];
+  List<Object?> get props => [message, statusCode];
 }

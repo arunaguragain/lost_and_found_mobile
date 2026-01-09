@@ -1,76 +1,109 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lost_and_found_mobile/features/auth/domain/usecases/get_currentuser_usecase.dart';
 import 'package:lost_and_found_mobile/features/auth/domain/usecases/login_usecase.dart';
+import 'package:lost_and_found_mobile/features/auth/domain/usecases/logout_usecase.dart';
 import 'package:lost_and_found_mobile/features/auth/domain/usecases/register_usecase.dart';
 import 'package:lost_and_found_mobile/features/auth/presentation/state/auth_state.dart';
 
-//provider
-final authViewmodelProvider = NotifierProvider<AuthViewmodel, AuthState>(
-  () => AuthViewmodel(),
+final authViewmodelProvider = NotifierProvider<AuthViewModel, AuthState>(
+  () => AuthViewModel(),
 );
 
-class AuthViewmodel extends Notifier<AuthState> {
+class AuthViewModel extends Notifier<AuthState> {
   late final RegisterUsecase _registerUsecase;
   late final LoginUsecase _loginUsecase;
+  late final GetCurrentUserUsecase _getCurrentUserUsecase;
+  late final LogoutUsecase _logoutUsecase;
 
   @override
   AuthState build() {
     _registerUsecase = ref.read(registerUsecaseProvider);
     _loginUsecase = ref.read(loginUsecaseProvider);
-    return AuthState();
+    _getCurrentUserUsecase = ref.read(getCurrentUserUsecaseProvider);
+    _logoutUsecase = ref.read(logoutUsecaseProvider);
+    return const AuthState();
   }
 
   Future<void> register({
     required String fullName,
     required String email,
-    String? phoneNumber,
-    String? batchId,
     required String username,
     required String password,
+    String? phoneNumber,
+    String? batchId,
   }) async {
     state = state.copyWith(status: AuthStatus.loading);
-    //wait for 2 sec
-    await Future.delayed(const Duration(seconds: 2));
-    final params = RegisterUsecaseParams(
-      fullName: fullName,
-      email: email,
-      phoneNumber: phoneNumber,
-      batchId: batchId,
-      username: username,
-      password: password,
+
+    final result = await _registerUsecase(
+      RegisterUsecaseParams(
+        fullName: fullName,
+        email: email,
+        username: username,
+        password: password,
+        phoneNumber: phoneNumber,
+        batchId: batchId,
+      ),
     );
-    final result = await _registerUsecase(params);
+
     result.fold(
-      (failure) {
-        state = state.copyWith(
-          status: AuthStatus.error,
-          errorMessage: failure.message,
-        );
-      },
-      (isRegistered) {
-        state = state.copyWith(status: AuthStatus.registered);
-      },
+      (failure) => state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: failure.message,
+      ),
+      (success) => state = state.copyWith(status: AuthStatus.registered),
     );
   }
 
-  //login
   Future<void> login({required String email, required String password}) async {
     state = state.copyWith(status: AuthStatus.loading);
-    final params = LoginUsecaseParams(email: email, password: password);
-    await Future.delayed(const Duration(seconds: 2));
-    final result = await _loginUsecase(params);
-    result.fold(
-      (failure) {
-        state = state.copyWith(
-          status: AuthStatus.error,
-          errorMessage: failure.message,
-        );
-      },
-      (authEntity) {
-        state = state.copyWith(
-          status: AuthStatus.authenticated,
-          authEntity: authEntity,
-        );
-      },
+
+    final result = await _loginUsecase(
+      LoginUsecaseParams(email: email, password: password),
     );
+
+    result.fold(
+      (failure) => state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: failure.message,
+      ),
+      (user) =>
+          state = state.copyWith(status: AuthStatus.authenticated, user: user),
+    );
+  }
+
+  Future<void> getCurrentUser() async {
+    state = state.copyWith(status: AuthStatus.loading);
+
+    final result = await _getCurrentUserUsecase();
+
+    result.fold(
+      (failure) => state = state.copyWith(
+        status: AuthStatus.unauthenticated,
+        errorMessage: failure.message,
+      ),
+      (user) =>
+          state = state.copyWith(status: AuthStatus.authenticated, user: user),
+    );
+  }
+
+  Future<void> logout() async {
+    state = state.copyWith(status: AuthStatus.loading);
+
+    final result = await _logoutUsecase();
+
+    result.fold(
+      (failure) => state = state.copyWith(
+        status: AuthStatus.error,
+        errorMessage: failure.message,
+      ),
+      (success) => state = state.copyWith(
+        status: AuthStatus.unauthenticated,
+        user: null,
+      ),
+    );
+  }
+
+  void clearError() {
+    state = state.copyWith(errorMessage: null);
   }
 }

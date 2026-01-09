@@ -10,7 +10,7 @@ class AuthEntity extends Equatable {
   final String? password;
   final BatchEntity? batch;
   final String? phoneNumber;
-  final String? profiePicture;
+  final String? profilePicture;
 
   const AuthEntity({
     this.authId,
@@ -20,7 +20,7 @@ class AuthEntity extends Equatable {
     required this.username,
     this.password,
     this.phoneNumber,
-    this.profiePicture, 
+    this.profilePicture,
     this.batch,
   });
 
@@ -33,6 +33,6 @@ class AuthEntity extends Equatable {
     username,
     password,
     phoneNumber,
-    profiePicture,
+    profilePicture,
   ];
 }

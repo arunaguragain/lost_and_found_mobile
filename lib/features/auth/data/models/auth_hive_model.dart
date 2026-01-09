@@ -46,7 +46,7 @@ class AuthHiveModel extends HiveObject {
       batchId: entity.batchId,
       username: entity.username,
       password: entity.password,
-      profilePicture: entity.profiePicture,
+      profilePicture: entity.profilePicture,
     );
   }
 
@@ -61,7 +61,7 @@ class AuthHiveModel extends HiveObject {
       batch: batchEntity,
       username: username,
       password: password,
-      profiePicture: profilePicture,
+      profilePicture: profilePicture,
     );
   }
 

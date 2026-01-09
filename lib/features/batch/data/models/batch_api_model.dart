@@ -13,7 +13,7 @@ class BatchApiModel {
   }
 
   //fromJSON
-  factory BatchApiModel.fronJson(Map<String, dynamic> json) {
+  factory BatchApiModel.fromJson(Map<String, dynamic> json) {
     return BatchApiModel(
       id: json['_id'] as String,
       batchName: json['batchName'] as String,

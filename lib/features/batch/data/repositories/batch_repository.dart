@@ -68,7 +68,7 @@ class BatchRepository implements IBatchRepository {
       } on DioException catch (e) {
         return Left(
           ApiFailure(
-            statuscode: e.response?.statusCode,
+            statusCode: e.response?.statusCode,
             message: e.response?.data['message'] ?? 'Failed to fetch batches',
           ),
         );

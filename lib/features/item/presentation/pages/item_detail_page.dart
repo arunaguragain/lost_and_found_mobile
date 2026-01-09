@@ -6,7 +6,6 @@ import '../../../../core/utils/snackbar_utils.dart';
 class ItemDetailPage extends StatelessWidget {
   final String title;
   final String location;
-  final String time;
   final String category;
   final bool isLost;
   final String? description;
@@ -17,7 +16,6 @@ class ItemDetailPage extends StatelessWidget {
     super.key,
     required this.title,
     required this.location,
-    required this.time,
     required this.category,
     required this.isLost,
     this.description,
@@ -225,18 +223,9 @@ class ItemDetailPage extends StatelessWidget {
                               ],
                             ),
                             const SizedBox(height: 16),
-                            Row(
-                              children: [
-                                _InfoChip(
-                                  icon: Icons.location_on_rounded,
-                                  text: location,
-                                ),
-                                const SizedBox(width: 16),
-                                _InfoChip(
-                                  icon: Icons.access_time_rounded,
-                                  text: time,
-                                ),
-                              ],
+                            _InfoChip(
+                              icon: Icons.location_on_rounded,
+                              text: location,
                             ),
                           ],
                         ),
@@ -507,23 +496,29 @@ class _InfoChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Icon(
-          icon,
-          size: 16,
-          color: context.textSecondary,
-        ),
-        const SizedBox(width: 6),
-        Text(
-          text,
-          style: TextStyle(
-            fontSize: 13,
+    return ConstrainedBox(
+      constraints: BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.5),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            icon,
+            size: 16,
             color: context.textSecondary,
           ),
-        ),
-      ],
+          const SizedBox(width: 6),
+          Flexible(
+            child: Text(
+              text,
+              style: TextStyle(
+                fontSize: 13,
+                color: context.textSecondary,
+              ),
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

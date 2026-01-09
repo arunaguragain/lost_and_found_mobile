@@ -1,0 +1,35 @@
+import 'package:dartz/dartz.dart';
+import 'package:equatable/equatable.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:lost_and_found_mobile/core/error/failures.dart';
+import 'package:lost_and_found_mobile/core/usecases/app_usecase.dart';
+import 'package:lost_and_found_mobile/features/category/data/repositories/category_repository.dart';
+import 'package:lost_and_found_mobile/features/category/domain/repositories/category_repository.dart';
+import 'package:lost_and_found_mobile/features/category/domain/usecases/create_category_usecase.dart';
+
+class DeleteCategoryParams extends Equatable {
+  final String categoryId;
+
+  const DeleteCategoryParams({required this.categoryId});
+
+  @override
+  List<Object?> get props => [categoryId];
+}
+
+final deleteCategoryUsecaseProvider = Provider<DeleteCategoryUsecase>((ref) {
+  final categoryRepository = ref.read(categoryRepositoryProvider);
+  return DeleteCategoryUsecase(categoryRepository: categoryRepository);
+});
+
+class DeleteCategoryUsecase
+    implements UsecaseWithParams<bool, DeleteCategoryParams> {
+  final ICategoryRepository _categoryRepository;
+
+  DeleteCategoryUsecase({required ICategoryRepository categoryRepository})
+      : _categoryRepository = categoryRepository;
+
+  @override
+  Future<Either<Failure, bool>> call(DeleteCategoryParams params) {
+    return _categoryRepository.deleteCategory(params.categoryId);
+  }
+}

@@ -1,4 +1,3 @@
-
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found_mobile/core/api/api_client.dart';
 import 'package:lost_and_found_mobile/core/api/api_endpoints.dart';
@@ -30,7 +29,7 @@ class BatchRemoteDatasource implements IBatchRemoteDataSource {
     final data = response.data['data'] as List;
     //json -> api model -> entity : from Json
     //entity -> api model -> adapter : toJson
-    return data.map((json) => BatchApiModel.fronJson(json)).toList();
+    return data.map((json) => BatchApiModel.fromJson(json)).toList();
   }
 
   @override
