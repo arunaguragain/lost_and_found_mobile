@@ -15,7 +15,7 @@ class AuthViewModel extends Notifier<AuthState> {
   late final GetCurrentUserUsecase _getCurrentUserUsecase;
   late final LogoutUsecase _logoutUsecase;
 
-  @override
+  @override 
   AuthState build() {
     _registerUsecase = ref.read(registerUsecaseProvider);
     _loginUsecase = ref.read(loginUsecaseProvider);
