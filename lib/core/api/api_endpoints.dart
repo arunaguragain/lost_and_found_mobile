@@ -5,8 +5,8 @@ import 'package:flutter/foundation.dart';
 class ApiEndpoints {
   ApiEndpoints._();
 
-  
-  static const bool isPhysicalDevice = false;   //make it true and change ip address to run on physical device
+  static const bool isPhysicalDevice =
+      false; //make it true and change ip address to run on physical device
 
   static const String compIpAddress = "http://192.168.x.x:5000/api/v1";
 
@@ -45,6 +45,8 @@ class ApiEndpoints {
   static const String items = '/items';
   static String itemById(String id) => '/items/$id';
   static String itemClaim(String id) => '/items/$id/claim';
+  static String itemUploadPhoto = '/items/upload-photo';
+  static String itemUploadVideo = '/items/upload-video';
 
   // ============ Comment Endpoints ============
   static const String comments = '/comments';

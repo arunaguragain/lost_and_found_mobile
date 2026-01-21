@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -64,7 +63,7 @@ class _ReportItemPageState extends ConsumerState<ReportItemPage> {
       final userSessionService = ref.read(userSessionServiceProvider);
       final userId = userSessionService.getCurrentUserId();
 
-      await ref
+      ref
           .read(itemViewModelProvider.notifier)
           .createItem(
             itemName: _titleController.text.trim(),
@@ -135,6 +134,11 @@ class _ReportItemPageState extends ConsumerState<ReportItemPage> {
         _selectedMedia.clear();
         _selectedMedia.add(photo);
       });
+
+      //upload image to server
+      await ref
+          .read(itemViewModelProvider.notifier)
+          .uploadPhoto(File(photo.path));
     }
   }
 
@@ -142,29 +146,39 @@ class _ReportItemPageState extends ConsumerState<ReportItemPage> {
   Future<void> _pickFromGallery({bool allowMultiple = false}) async {
     try {
       if (allowMultiple) {
-        final List<XFile> images = await _imagePicker.pickMultiImage(
+        final List<XFile> photo = await _imagePicker.pickMultiImage(
           imageQuality: 80,
         );
 
-        if (images.isNotEmpty) {
+        if (photo.isNotEmpty) {
           setState(() {
             _selectedMedia.clear();
-            _selectedMedia.addAll(images);
+            _selectedMedia.addAll(photo);
           });
+
+          //upload image to server
+          // await ref
+          //     .read(itemViewModelProvider.notifier)
+          //     .uploadPhoto(File(photo.path));
         }
       } else {
-        final XFile? image = await _imagePicker.pickImage(
+        final XFile? photo = await _imagePicker.pickImage(
           source: ImageSource.gallery,
           imageQuality: 80,
         );
 
-        if (image != null) {
+        if (photo != null) {
           setState(() {
             setState(() {
               _selectedMedia.clear();
-              _selectedMedia.add(image);
+              _selectedMedia.add(photo);
             });
           });
+
+          //upload image to server
+          await ref
+              .read(itemViewModelProvider.notifier)
+              .uploadPhoto(File(photo.path));
         }
       }
     } catch (e) {
@@ -189,7 +203,7 @@ class _ReportItemPageState extends ConsumerState<ReportItemPage> {
       );
       if (!hasMicPermission) return;
 
-      final XFile? video = await _imagePicker.pickVideo(
+      await _imagePicker.pickVideo(
         source: ImageSource.camera,
         maxDuration: const Duration(seconds: 60),
       );

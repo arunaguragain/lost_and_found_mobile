@@ -3,17 +3,16 @@ import 'package:lost_and_found_mobile/core/services/hive/hive_service.dart';
 import 'package:lost_and_found_mobile/features/item/data/datasources/item_datasource.dart';
 import 'package:lost_and_found_mobile/features/item/data/models/item_hive_model.dart';
 
-
 final itemLocalDatasourceProvider = Provider<ItemLocalDatasource>((ref) {
   final hiveService = ref.read(hiveServiceProvider);
   return ItemLocalDatasource(hiveService: hiveService);
 });
 
-class ItemLocalDatasource implements IItemDataSource {
+class ItemLocalDatasource implements IItemLocalDataSource {
   final HiveService _hiveService;
 
   ItemLocalDatasource({required HiveService hiveService})
-      : _hiveService = hiveService;
+    : _hiveService = hiveService;
 
   @override
   Future<bool> createItem(ItemHiveModel item) async {

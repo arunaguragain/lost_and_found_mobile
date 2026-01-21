@@ -5,7 +5,6 @@ import 'package:lost_and_found_mobile/core/error/failures.dart';
 import 'package:lost_and_found_mobile/core/usecases/app_usecase.dart';
 import 'package:lost_and_found_mobile/features/category/data/repositories/category_repository.dart';
 import 'package:lost_and_found_mobile/features/category/domain/repositories/category_repository.dart';
-import 'package:lost_and_found_mobile/features/category/domain/usecases/create_category_usecase.dart';
 
 class DeleteCategoryParams extends Equatable {
   final String categoryId;

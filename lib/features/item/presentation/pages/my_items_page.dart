@@ -24,7 +24,9 @@ class _MyItemsPageState extends ConsumerState<MyItemsPage>
   void initState() {
     super.initState();
     _tabController = TabController(length: 2, vsync: this);
-    Future.microtask(() => _loadData());
+    Future.microtask(() {
+      _loadData();
+    });
   }
 
   void _loadData() {

@@ -1,29 +1,32 @@
-import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:lost_and_found_mobile/core/api/api_client.dart';
 import 'package:lost_and_found_mobile/core/api/api_endpoints.dart';
+import 'package:lost_and_found_mobile/core/services/storage/token_service.dart';
 import 'package:lost_and_found_mobile/core/services/storage/user_session_service.dart';
 import 'package:lost_and_found_mobile/features/auth/data/datasources/auth_datasource.dart';
 import 'package:lost_and_found_mobile/features/auth/data/models/auth_api_model.dart';
-import 'package:lost_and_found_mobile/features/auth/data/models/auth_hive_model.dart';
 
 //provider
 final authRemoteProvider = Provider<IAuthRemoteDataSource>((ref) {
   return AuthRemoteDatasource(
     apiClient: ref.read(apiClientProvider),
     userSessionService: ref.read(userSessionServiceProvider),
+    tokenService: ref.read(tokenServiceProvider),
   );
 });
 
 class AuthRemoteDatasource implements IAuthRemoteDataSource {
   final ApiClient _apiClient;
   final UserSessionService _userSessionService;
+  final TokenService _tokenService;
 
   AuthRemoteDatasource({
     required ApiClient apiClient,
     required UserSessionService userSessionService,
+    required TokenService tokenService,
   }) : _apiClient = apiClient,
-       _userSessionService = userSessionService;
+       _userSessionService = userSessionService,
+       _tokenService = tokenService;
 
   @override
   Future<AuthApiModel> getUserById(String authId) {
@@ -37,7 +40,7 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
       ApiEndpoints.studentLogin,
       data: {'email': email, 'password': password},
     );
-    
+
     if (response.data['success'] == true) {
       final data = response.data['data'] as Map<String, dynamic>;
       final user = AuthApiModel.fromJson(data);
@@ -51,8 +54,12 @@ class AuthRemoteDatasource implements IAuthRemoteDataSource {
         phoneNumber: user.phoneNumber,
         batchId: user.batchId,
       );
+      //save token
+      final token = response.data['token'] as String?;
+      await _tokenService.saveToken(token!);
       return user;
     }
+
     return null;
   }
 
